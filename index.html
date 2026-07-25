@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emerald MLM | Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/login.css">
+</head>
+<body class="login-body">
+    <!-- Theme Toggle Button Top-Right -->
+    <button class="theme-toggle-floating" id="themeToggleBtn" title="Toggle Light/Dark Mode">
+        <i class="fa-solid fa-moon"></i>
+    </button>
+
+    <div class="login-container">
+        <div class="login-card glass-panel">
+            <div class="login-header">
+                <div class="logo">
+                    <i class="fa-solid fa-gem"></i>
+                </div>
+                <h2>Sample Prototye</h2>
+                <p>Enterprise MLM System</p>
+            </div>
+            
+            <form id="loginForm">
+                <div class="input-group">
+                    <i class="fa-solid fa-user"></i>
+                    <input type="text" id="username" placeholder="Username" required autocomplete="off">
+                </div>
+                
+                <div class="input-group">
+                    <i class="fa-solid fa-lock"></i>
+                    <input type="password" id="password" placeholder="Password" required>
+                </div>
+                
+                <div class="login-options">
+                    <label class="remember-me">
+                        <input type="checkbox"> Remember Me
+                    </label>
+                    <a href="#" class="forgot-pwd">Forgot Password?</a>
+                </div>
+                
+                <button type="submit" class="btn-primary" id="loginBtn">
+                    <span class="btn-text">Sign In</span>
+                    <i class="fa-solid fa-circle-notch fa-spin hidden" id="loginLoader"></i>
+                </button>
+                <div id="loginError" class="error-msg hidden">Invalid credentials. Use admin / admin123</div>
+            </form>
+        </div>
+    </div>
+    <script src="js/login.js"></script>
+</body>
+</html>

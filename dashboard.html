@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prototype MLM | Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="dashboard-body">
+    
+    <!-- Mobile Sidebar Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <i class="fa-solid fa-gem text-emerald"></i>
+            <h2>Sam</h2>
+            <i class="fa-solid fa-bars toggle-btn" id="toggleSidebar"></i>
+        </div>
+        
+        <ul class="nav-menu">
+            <li class="nav-item active" data-target="dashboardView">
+                <div class="nav-link">
+                    <i class="fa-solid fa-gauge-high"></i> <span>Dashboard</span>
+                </div>
+            </li>
+            
+            <li class="nav-item" data-target="earnersView">
+                <div class="nav-link">
+                    <i class="fa-solid fa-trophy"></i> <span>Top 50 Earner</span>
+                </div>
+            </li>
+
+            <li class="nav-item has-dropdown">
+                <div class="nav-link dropdown-toggle">
+                    <i class="fa-solid fa-user"></i> <span>Accounts</span>
+                    <span class="nav-badge">3</span>
+                </div>
+                <ul class="sub-menu">
+                    <li onclick="openModal('editProfileModal')"><i class="fa-solid fa-user-pen"></i> <span>Edit Profile</span></li>
+                    <li onclick="openModal('editPasswordModal')"><i class="fa-solid fa-user-lock"></i> <span>Edit Password</span></li>
+                    <li class="sub-item-link" data-target="accountsView"><i class="fa-solid fa-users"></i> <span>List Accounts</span></li>
+                </ul>
+            </li>
+
+            <li class="nav-item has-dropdown">
+                <div class="nav-link dropdown-toggle">
+                    <i class="fa-solid fa-money-bill-wave"></i> <span>Earnings</span>
+                    <span class="nav-badge">5</span>
+                </div>
+                <ul class="sub-menu">
+                    <li class="sub-item-link" data-target="summaryView"><i class="fa-solid fa-table"></i> <span>Summary</span></li>
+                    <li class="sub-item-link" data-target="pairingBonusView"><i class="fa-solid fa-user-group"></i> <span>Pairing Bonus</span></li>
+                    <li class="sub-item-link" data-target="fifthCycleView"><i class="fa-solid fa-user-check"></i> <span>5th Cycle Bonus</span></li>
+                    <li class="sub-item-link" data-target="leadershipPairingView"><i class="fa-solid fa-user-tie"></i> <span>Leadership Pairing</span></li>
+                    <li class="sub-item-link" data-target="leadershipFifthCycleView"><i class="fa-solid fa-users-gear"></i> <span>Leadership 5th Cycle</span></li>
+                </ul>
+            </li>
+
+            <li class="nav-item has-dropdown">
+                <div class="nav-link dropdown-toggle">
+                    <i class="fa-solid fa-sitemap"></i> <span>Genealogy</span>
+                    <span class="nav-badge">1</span>
+                </div>
+                <ul class="sub-menu">
+                    <li class="sub-item-link" data-target="genealogyView"><i class="fa-solid fa-people-arrows"></i> <span>Binary Genealogy</span></li>
+                </ul>
+            </li>
+
+            <li class="nav-item has-dropdown">
+                <div class="nav-link dropdown-toggle">
+                    <i class="fa-solid fa-wallet"></i> <span>Ewallet Transaction</span>
+                    <span class="nav-badge">3</span>
+                </div>
+                <ul class="sub-menu">
+                    <li class="sub-item-link" data-target="conversionView"><i class="fa-solid fa-file-invoice-dollar"></i> <span>Conversion</span></li>
+                    <li class="sub-item-link" data-target="encashmentView"><i class="fa-solid fa-money-check-dollar"></i> <span>Encashment</span></li>
+                    <li class="sub-item-link" data-target="gcEncashmentView"><i class="fa-solid fa-money-check-dollar"></i> <span>GC Encashment</span></li>
+                </ul>
+            </li>
+
+            <li class="nav-item has-dropdown">
+                <div class="nav-link dropdown-toggle">
+                    <i class="fa-solid fa-file-lines"></i> <span>Reports</span>
+                    <span class="nav-badge">2</span>
+                </div>
+                <ul class="sub-menu">
+                    <li class="sub-item-link" data-target="reportsView"><i class="fa-solid fa-file-contract"></i> <span>Ewallet Historical</span></li>
+                    <li class="sub-item-link" data-target="evoucherHistoricalView"><i class="fa-solid fa-file-invoice"></i> <span>Evoucher Historical</span></li>
+                </ul>
+            </li>
+
+            <li class="nav-item has-dropdown">
+                <div class="nav-link dropdown-toggle">
+                    <i class="fa-solid fa-cloud-arrow-up"></i> <span>Upload</span>
+                    <span class="nav-badge">1</span>
+                </div>
+                <ul class="sub-menu">
+                    <li class="sub-item-link" data-target="uploadPictureView"><i class="fa-solid fa-file-image"></i> <span>Upload Profile Picture</span></li>
+                </ul>
+            </li>
+
+            <li class="nav-item" id="logoutBtnTrigger">
+                <div class="nav-link">
+                    <i class="fa-solid fa-right-from-bracket"></i> <span>Logout</span>
+                </div>
+            </li>
+        </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <header class="top-nav">
+            <div class="mobile-toggle" id="mobileNavToggle"><i class="fa-solid fa-bars"></i></div>
+            <div >
+</div>
+            <div class="nav-actions">
+                <!-- Theme Toggle Button -->
+                <button class="btn-icon" id="themeToggleBtn" title="Toggle Theme">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+                
+                <button class="btn-icon"><i class="fa-solid fa-bell"></i></button>
+                <div class="profile-menu">
+                    <img src="https://ui-avatars.com/api/?name=Admin+User&background=10B981&color=fff" alt="Profile">
+                </div>
+            </div>
+        </header>
+
+        <div class="views-container">
+            <!-- View: Dashboard -->
+            <div class="view active" id="dashboardView">
+                <h2 class="view-title">Overview</h2>
+                <div class="stats-grid">
+                    <div class="stat-card glass-panel">
+                        <div class="stat-info">
+                            <h3>Total Members</h3>
+                            <h2 id="totMembers">12,450</h2>
+                        </div>
+                        <div class="stat-icon"><i class="fa-solid fa-users"></i></div>
+                    </div>
+                    <div class="stat-card glass-panel">
+                        <div class="stat-info">
+                            <h3>Active Members</h3>
+                            <h2 id="actMembers" class="text-emerald">9,210</h2>
+                        </div>
+                        <div class="stat-icon"><i class="fa-solid fa-user-check"></i></div>
+                    </div>
+                    <div class="stat-card glass-panel">
+                        <div class="stat-info">
+                            <h3>Total Sales</h3>
+                            <h2 id="totSales">$1.2M</h2>
+                        </div>
+                        <div class="stat-icon"><i class="fa-solid fa-cart-shopping"></i></div>
+                    </div>
+                    <div class="stat-card glass-panel">
+                        <div class="stat-info">
+                            <h3>Total Earnings</h3>
+                            <h2 id="totEarnings">$450K</h2>
+                        </div>
+                        <div class="stat-icon"><i class="fa-solid fa-hand-holding-dollar"></i></div>
+                    </div>
+                </div>
+
+                <div class="charts-grid">
+                    <div class="chart-card glass-panel">
+                        <h3>Monthly Registrations & Sales</h3>
+                        <div class="chart-container-responsive">
+                            <canvas id="mainChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-card glass-panel">
+                        <h3>Commission Distribution</h3>
+                        <div class="chart-container-responsive">
+                            <canvas id="doughnutChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- View: Top 50 Earners -->
+            <div class="view hidden" id="earnersView">
+                <div class="view-header responsive-header">
+                    <h2 class="view-title">🏆 Top 50 Earners</h2>
+                    <div class="actions">
+                        <button class="btn-outline"><i class="fa-solid fa-file-csv"></i> CSV</button>
+                        <button class="btn-outline"><i class="fa-solid fa-file-pdf"></i> PDF</button>
+                    </div>
+                </div>
+                <div class="table-container glass-panel">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Member</th>
+                                <th>Country</th>
+                                <th>Team Size</th>
+                                <th>Total Earnings</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="earnersTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- View: Accounts -->
+            <div class="view hidden" id="accountsView">
+                <div class="view-header responsive-header">
+                    <h2 class="view-title">Member Accounts</h2>
+                    <button class="btn-primary" onclick="openModal('addMemberModal')"><i class="fa-solid fa-plus"></i> Add Member</button>
+                </div>
+                <div class="table-container glass-panel">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Full Name</th>
+                                <th>Package</th>
+                                <th>Sponsor ID</th>
+                                <th>Date Joined</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="accountsTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- View: Genealogy -->
+            <div class="view hidden" id="genealogyView">
+                <h2 class="view-title">Binary Genealogy Tree</h2>
+                <div class="tree-container glass-panel">
+                    <div class="tree" id="binaryTree"></div>
+                </div>
+            </div>
+
+            <!-- View: Wallet -->
+            <div class="view hidden" id="walletView">
+                <h2 class="view-title">E-Wallet Summary</h2>
+                <div class="stats-grid">
+                    <div class="stat-card glass-panel">
+                        <div class="stat-info">
+                            <h3>Wallet Balance</h3>
+                            <h2>$84,500.00</h2>
+                        </div>
+                    </div>
+                    <div class="stat-card glass-panel">
+                        <div class="stat-info">
+                            <h3>Pending Encashment</h3>
+                            <h2 class="text-warning">$12,400.00</h2>
+                        </div>
+                    </div>
+                </div>
+                <h3 class="mt-4">Recent Transactions</h3>
+                <div class="table-container glass-panel mt-2">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Txn ID</th>
+                                <th>Date</th>
+                                <th>Type</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="walletTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- View: Reports -->
+            <div class="view hidden" id="reportsView">
+                <h2 class="view-title">System Reports</h2>
+                <div class="glass-panel p-4">
+                    <p class="text-muted">Select report type to generate:</p>
+                    <div class="actions mt-2 flex-wrap">
+                        <button class="btn-primary" onclick="showToast('Earnings Report Generating...')">Earnings Report</button>
+                        <button class="btn-outline" onclick="showToast('Wallet Report Generating...')">Wallet Report</button>
+                        <button class="btn-outline" onclick="showToast('Member Report Generating...')">Member Report</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- Earnings Views -->
+        <div class="view hidden" id="summaryView">
+            <div class="header-flex"><h2>Earnings Summary</h2></div>
+            <div class="glass-panel"><p class="text-muted">Summary metrics will appear here.</p></div>
+        </div>
+        <div class="view hidden" id="pairingBonusView">
+            <div class="header-flex"><h2>Pairing Bonus</h2></div>
+            <div class="glass-panel"><p class="text-muted">Pairing bonus ledger goes here.</p></div>
+        </div>
+        <div class="view hidden" id="fifthCycleView">
+            <div class="header-flex"><h2>5th Cycle Bonus</h2></div>
+            <div class="glass-panel"><p class="text-muted">5th cycle bonus records go here.</p></div>
+        </div>
+        <div class="view hidden" id="leadershipPairingView">
+            <div class="header-flex"><h2>Leadership Pairing</h2></div>
+            <div class="glass-panel"><p class="text-muted">Leadership pairing metrics go here.</p></div>
+        </div>
+        <div class="view hidden" id="leadershipFifthCycleView">
+            <div class="header-flex"><h2>Leadership 5th Cycle</h2></div>
+            <div class="glass-panel"><p class="text-muted">Leadership 5th cycle metrics go here.</p></div>
+        </div>
+
+        <!-- Ewallet Transaction Views -->
+        <div class="view hidden" id="conversionView">
+            <div class="header-flex"><h2>Wallet Conversion</h2></div>
+            <div class="glass-panel"><p class="text-muted">Funds conversion tools go here.</p></div>
+        </div>
+        <div class="view hidden" id="encashmentView">
+            <div class="header-flex"><h2>Encashment Request</h2></div>
+            <div class="glass-panel"><p class="text-muted">Request payouts from this interface.</p></div>
+        </div>
+        <div class="view hidden" id="gcEncashmentView">
+            <div class="header-flex"><h2>GC Encashment</h2></div>
+            <div class="glass-panel"><p class="text-muted">Gift check encashment tools go here.</p></div>
+        </div>
+
+        <!-- Reports Extras -->
+        <div class="view hidden" id="evoucherHistoricalView">
+            <div class="header-flex"><h2>Evoucher Historical Reports</h2></div>
+            <div class="glass-panel"><p class="text-muted">Historical evoucher data goes here.</p></div>
+        </div>
+
+        <!-- Upload View -->
+        <div class="view hidden" id="uploadPictureView">
+            <div class="header-flex"><h2>Upload Profile Picture</h2></div>
+            <div class="glass-panel" style="text-align: center; padding: 3rem;">
+                <i class="fa-solid fa-cloud-arrow-up text-emerald" style="font-size: 4rem; margin-bottom: 1rem;"></i>
+                <h3>Drag & Drop Image</h3>
+                <p class="text-muted" style="margin-bottom: 1.5rem;">Upload a new profile picture for your account.</p>
+                <button class="btn-primary">Browse Files</button>
+            </div>
+        </div>
+    </main>
+
+   <!-- Modal System -->
+   <div class="modal-overlay hidden" id="modalOverlay">
+        
+    <!-- Add/Edit Member Modal -->
+    <div class="modal glass-panel hidden" id="addMemberModal">
+        <div class="modal-header">
+            <h3 id="memberModalTitle">Add/Edit Member</h3>
+            <button class="btn-icon close-modal"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="modal-body">
+            <form id="memberForm">
+                <input type="hidden" id="editMemberId">
+                <div class="form-grid">
+                    <div class="input-group-modal">
+                        <label>Full Name</label>
+                        <input type="text" id="newMemberName" required>
+                    </div>
+                    <div class="input-group-modal">
+                        <label>Sponsor ID</label>
+                        <input type="text" id="newMemberSponsor" required>
+                    </div>
+                    <div class="input-group-modal">
+                        <label>Package Level</label>
+                        <select id="newMemberPackage" required>
+                            <option value="Bronze">Bronze ($100)</option>
+                            <option value="Silver">Silver ($500)</option>
+                            <option value="Gold">Gold ($1000)</option>
+                            <option value="Platinum">Platinum ($5000)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer mt-4">
+                    <button type="button" class="btn-outline close-modal">Cancel</button>
+                    <button type="submit" class="btn-primary">Save Member</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal glass-panel hidden" id="deleteModal">
+        <div class="modal-header">
+            <h3>Confirm Deletion</h3>
+            <button class="btn-icon close-modal"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="modal-body text-center">
+            <i class="fa-solid fa-triangle-exclamation text-danger" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+            <p>Are you sure you want to delete member <strong id="deleteMemberIdText"></strong>?</p>
+            <p class="text-muted" style="font-size: 0.85rem;">This action cannot be undone.</p>
+        </div>
+        <div class="modal-footer" style="justify-content: center; margin-top: 1.5rem;">
+            <button class="btn-outline close-modal">Cancel</button>
+            <button class="btn-primary bg-danger border-none" id="confirmDeleteBtn">Delete</button>
+        </div>
+    </div>
+
+    <!-- Edit Profile Modal (Placeholder) -->
+    <div class="modal glass-panel hidden" id="editProfileModal">
+        <div class="modal-header">
+            <h3>Edit My Profile</h3>
+            <button class="btn-icon close-modal"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="modal-body">
+            <p class="text-muted">Profile editing form would go here...</p>
+        </div>
+    </div>
+
+    <!-- Edit Password Modal (Placeholder) -->
+    <div class="modal glass-panel hidden" id="editPasswordModal">
+        <div class="modal-header">
+            <h3>Change Password</h3>
+            <button class="btn-icon close-modal"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="modal-body">
+            <p class="text-muted">Password reset form would go here...</p>
+        </div>
+    </div>
+
+    <!-- Logout Confirmation Modal -->
+    <div class="modal glass-panel hidden" id="logoutModal">
+        <div class="modal-header">
+            <h3>Confirm Logout</h3>
+            <button class="btn-icon close-modal"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="modal-body text-center">
+            <i class="fa-solid fa-right-from-bracket text-warning" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+            <p>Are you sure you want to end your session?</p>
+        </div>
+        <div class="modal-footer" style="justify-content: center; margin-top: 1.5rem;">
+            <button class="btn-outline close-modal">Cancel</button>
+            <button class="btn-primary bg-danger border-none" id="confirmLogoutBtn">Yes, Logout</button>
+        </div>
+    </div>
+</div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast hidden"></div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
